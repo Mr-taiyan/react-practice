@@ -1,17 +1,33 @@
-import React from 'react';
-import ReactDOM from 'react-dom';
-import './index.css';
-import App from './App';
-import reportWebVitals from './reportWebVitals';
+import React, { Component } from "react";
+import ReactDOM from "react-dom";
 
-ReactDOM.render(
-  <React.StrictMode>
-    <App />
-  </React.StrictMode>,
-  document.getElementById('root')
-);
+class Clock extends Component {
+  constructor() {
+    super();
+    this.state = {
+      date: new Date(),
+    };
+    console.log("construct");
+  }
+  tick() {
+    this.setState({
+      date: new Date(),
+    });
+  }
+  componentDidMount() {
+    console.log("did mount");
+    this.timer = setInterval(() => this.tick(), 1000);
+  }
+  componentWillUnmount() {
+    console.log("will unmount");
+    clearInterval(this.timer);
+  }
+  componentDidUpdate() {
+    console.log("did update");
+  }
+  render() {
+    return <div>{this.state.date.toLocaleTimeString()}</div>;
+  }
+}
 
-// If you want to start measuring performance in your app, pass a function
-// to log results (for example: reportWebVitals(console.log))
-// or send to an analytics endpoint. Learn more: https://bit.ly/CRA-vitals
-reportWebVitals();
+ReactDOM.render(<Clock></Clock>, document.getElementById("root"));
