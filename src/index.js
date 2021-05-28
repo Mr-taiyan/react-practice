@@ -1,5 +1,6 @@
 import React, { Component, PureComponent } from "react";
 import ReactDOM from "react-dom";
+import withWrapper from "./components/withTimer";
 import "./index.css";
 
 class MessageList extends PureComponent {
@@ -41,9 +42,12 @@ class SendImage extends Component {
         <MessageList messages={this.state.messages} />
         <input value={this.state.inputMsg} onChange={this.changeInput} />
         <button onClick={this.handleClick}>Send</button>
+        {this.props.time && <div>{this.props.time}</div>}
       </div>
     );
   }
 }
 
-ReactDOM.render(<SendImage />, document.getElementById("root"));
+let SendImageWithTimer = withWrapper(SendImage);
+
+ReactDOM.render(<SendImageWithTimer />, document.getElementById("root"));
