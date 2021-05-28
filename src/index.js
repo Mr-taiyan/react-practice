@@ -1,4 +1,15 @@
 import React, { Component, PureComponent } from "react";
 import ReactDOM from "react-dom";
 
-ReactDOM.render(<div>test</div>, document.getElementById("root"));
+class SendImage extends Component {
+  render() {
+    return (
+      <div>
+        <input />
+        <button>Send</button>
+      </div>
+    );
+  }
+}
+
+ReactDOM.render(<SendImage />, document.getElementById("root"));
