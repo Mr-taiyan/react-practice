@@ -3,9 +3,9 @@ import ReactDOM from "react-dom";
 import "./index.css";
 import "./tabSelector.css";
 
-class TabSelector extends Component {
+class TabSelector extends PureComponent {
   render() {
-    let { onChange, options, value } = this.props;
+    let { onChange, options, value, children } = this.props;
     return (
       <div className="tab-selector">
         <ul>
@@ -23,6 +23,7 @@ class TabSelector extends Component {
             );
           })}
         </ul>
+        {value && children && children(value)}
       </div>
     );
   }
@@ -40,12 +41,10 @@ const animals = [
   { name: "Cow", value: "cow" },
 ];
 
-class TabSelectorSample extends Component {
+class TabSelectorSample extends PureComponent {
   constructor() {
     super();
-    this.state = {
-      color: null,
-    };
+    this.state = {};
   }
   render() {
     return (
@@ -57,7 +56,31 @@ class TabSelectorSample extends Component {
           onChange={(val) => {
             this.setState({ color: val });
           }}
-        ></TabSelector>
+        >
+          {(value) => (
+            <span
+              style={{
+                display: "inline-block",
+                background: value,
+                width: "40px",
+                height: "40px",
+              }}
+            ></span>
+          )}
+        </TabSelector>
+        <br />
+        <br />
+        <br />
+        Select Animals:{" "}
+        <TabSelector
+          options={animals}
+          value={this.state.animal}
+          onChange={(val) => {
+            this.setState({ animal: val });
+          }}
+        >
+          {(animal) => <img width="100px" alt="img"></img>}
+        </TabSelector>
       </div>
     );
   }
