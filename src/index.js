@@ -39,10 +39,14 @@ class LocalButtons extends Component {
   static contextType = LocalContext;
   render() {
     return (
-      <div>
-        <button>{this.context.submit}</button>
-        &nbsp;<button>{this.context.cancel}</button>
-      </div>
+      <LocalContext.Consumer>
+        {(locale) => (
+          <div>
+            <button>{locale.submit}</button>
+            &nbsp;<button>{locale.cancel}</button>
+          </div>
+        )}
+      </LocalContext.Consumer>
     );
   }
 }
