@@ -1,5 +1,49 @@
-import React, { Component, PureComponent } from "react";
+import React, { useCallback, useEffect, useMemo, useState } from "react";
 import ReactDOM from "react-dom";
-import "./index.css";
 
-ReactDOM.render(<div>test</div>, document.getElementById("root"));
+export default function SearchUserList({ onClick }) {
+  const [users, setUsers] = useState(null);
+  const [searchKey, setSearchKey] = useState("");
+  useEffect(() => {
+    (async () => {
+      const res = await fetch("https://reqres.in/api/users/");
+      setUsers(await res.json());
+    })();
+  }, []);
+  let usersToShow = useMemo(() => {
+    console.log("run memo");
+    if (!users) return [];
+    return users.data.filter((user) => user.first_name.includes(searchKey));
+  }, [users, searchKey]);
+  console.log("run search user list");
+  return (
+    <div>
+      <input
+        type="text"
+        value={searchKey}
+        onChange={(e) => setSearchKey(e.target.value)}
+      ></input>
+      <ul>
+        {usersToShow.map((user) => (
+          <li key={user.id}>{user.first_name}</li>
+        ))}
+      </ul>
+      <button onClick={onClick}>+</button>
+    </div>
+  );
+}
+
+function MyComponent() {
+  const [num, setNum] = useState(0);
+  function handleClick() {
+    setNum(num + 1);
+  }
+  return (
+    <div>
+      {num}
+      <SearchUserList onClick={handleClick}></SearchUserList>
+    </div>
+  );
+}
+
+ReactDOM.render(<MyComponent />, document.getElementById("root"));
