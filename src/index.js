@@ -1,7 +1,7 @@
 import React, { useCallback, useEffect, useMemo, useState } from "react";
 import ReactDOM from "react-dom";
 
-export default function SearchUserList({ onClick }) {
+const SearchUserList = React.memo(function SearchUserList({ onClick }) {
   const [users, setUsers] = useState(null);
   const [searchKey, setSearchKey] = useState("");
   useEffect(() => {
@@ -27,9 +27,9 @@ export default function SearchUserList({ onClick }) {
       <button onClick={onClick}>+</button>
     </div>
   );
-}
+});
 
-function UserList({ usersToShow }) {
+const UserList = React.memo(function UserList({ usersToShow }) {
   console.log("render userList");
   return (
     <ul>
@@ -38,7 +38,7 @@ function UserList({ usersToShow }) {
       ))}
     </ul>
   );
-}
+});
 
 function MyComponent() {
   const [num, setNum] = useState(0);
