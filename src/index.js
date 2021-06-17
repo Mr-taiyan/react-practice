@@ -23,13 +23,20 @@ export default function SearchUserList({ onClick }) {
         value={searchKey}
         onChange={(e) => setSearchKey(e.target.value)}
       ></input>
-      <ul>
-        {usersToShow.map((user) => (
-          <li key={user.id}>{user.first_name}</li>
-        ))}
-      </ul>
+      <UserList usersToShow={usersToShow} />
       <button onClick={onClick}>+</button>
     </div>
+  );
+}
+
+function UserList({ usersToShow }) {
+  console.log("render userList");
+  return (
+    <ul>
+      {usersToShow.map((user) => (
+        <li key={user.id}>{user.first_name}</li>
+      ))}
+    </ul>
   );
 }
 
