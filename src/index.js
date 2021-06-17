@@ -42,9 +42,12 @@ const UserList = React.memo(function UserList({ usersToShow }) {
 
 function MyComponent() {
   const [num, setNum] = useState(0);
-  function handleClick() {
-    setNum(num + 1);
-  }
+  const handleClick = useCallback(
+    function handleClick() {
+      setNum((num) => num + 1);
+    },
+    [setNum]
+  );
   return (
     <div>
       {num}
