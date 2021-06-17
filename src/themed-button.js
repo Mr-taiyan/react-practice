@@ -1,8 +1,8 @@
-import { memo } from "react";
+import { memo, useContext } from "react";
 import { ThemeContext } from "./theme-context";
 
 const ThemedButton = memo(function (props) {
-  let theme = this.useContext(ThemeContext);
+  let theme = useContext(ThemeContext);
   return <button {...props} style={{ background: theme.background }}></button>;
 });
 
