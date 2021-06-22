@@ -1,13 +1,24 @@
-import React, { Component, PureComponent, useState } from "react";
+import React, {
+  Component,
+  PureComponent,
+  useEffect,
+  useRef,
+  useState,
+} from "react";
 import ReactDOM from "react-dom";
 import "./index.css";
 
-function useSingletom() {
-  console.log("run");
+function useSingletom(callback) {
+  let called = useRef(false);
+  if (called.current) return;
+  called.current = true;
+  callback();
 }
 
 const MyCompo = () => {
-  useSingletom();
+  useSingletom(() => {
+    console.log("run");
+  });
   const [num, setNum] = useState(0);
   function handleClick() {
     setNum((prev) => prev + 1);
