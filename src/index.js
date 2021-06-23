@@ -8,7 +8,16 @@ export function UserList() {
   const [error, setError] = useState(null);
 
   const fetchUsers = async () => {
-    console.log("fetch users");
+    setLoading(true);
+    try {
+      const res = await fetch("https://reqres.in/api/users/");
+      const json = await res.json();
+      console.log(json);
+      setUsers(json.data);
+    } catch (err) {
+      setError(err);
+    }
+    setLoading(false);
   };
 
   return (
