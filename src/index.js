@@ -1,3 +1,4 @@
+import { Select, Table } from "antd";
 import _ from "lodash";
 import React, {
   Component,
@@ -110,6 +111,21 @@ export default function BlogList() {
   if (articlesError || categoriesError) return "Failed";
 
   if (!result) return "loading...";
+
+  return (
+    <div>
+      <Select
+        value={selectedCategory}
+        onChange={(value) => {
+          setSelectedCategory(value);
+        }}
+        options={options}
+        style={{ width: "200px" }}
+        placeholder="Select a category"
+      ></Select>
+      <Table dataSource={result} columns={columns}></Table>
+    </div>
+  );
 }
 
-ReactDOM.render(<div>test</div>, document.getElementById("root"));
+ReactDOM.render(<BlogList />, document.getElementById("root"));
