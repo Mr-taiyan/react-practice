@@ -62,6 +62,30 @@ const useCategories = () => {
   };
 };
 
+const useCombinedArticles = (articles, categories) => {
+  return useMemo(() => {
+    if (!articles || !categories) return null;
+    return articles.map((article) => {
+      return {
+        ...article,
+        category: categories.find(
+          (c) => String(c.id) === String(article.categoryId)
+        ),
+      };
+    });
+  }, [articles, categories]);
+};
+
+const useFilteredArticles = (articles, selectedCategory) => {
+  return useMemo(() => {
+    if (!articles) return null;
+    if (!selectedCategory) return articles;
+    return articles.filter((article) => {
+      return String(article?.category?.name) === String(selectedCategory);
+    });
+  }, [articles, selectedCategory]);
+};
+
 const columns = [
   { dataIndex: "title", title: "Title" },
   { dataIndex: ["category", "name"], title: "Category" },
@@ -71,6 +95,21 @@ export default function BlogList() {
   const [selectedCategory, setSelectedCategory] = useState(null);
   const { articles, articlesError } = useArticles();
   const { categories, categoriesError } = useCategories();
+  const combined = useCombinedArticles(articles, categories);
+  const result = useFilteredArticles(combined, selectedCategory);
+
+  const options = useMemo(() => {
+    const arr = _.uniqBy(categories, (c) => c.name).map((c) => ({
+      value: c.name,
+      label: c.name,
+    }));
+    arr.unshift({ value: null, label: "All" });
+    return arr;
+  }, [categories]);
+
+  if (articlesError || categoriesError) return "Failed";
+
+  if (!result) return "loading...";
 }
 
 ReactDOM.render(<div>test</div>, document.getElementById("root"));
