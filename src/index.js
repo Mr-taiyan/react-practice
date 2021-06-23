@@ -2,7 +2,7 @@ import React, { Component, PureComponent, useState } from "react";
 import ReactDOM from "react-dom";
 import "./index.css";
 
-export function UserList() {
+function useFetchUsers(url) {
   const [users, setUsers] = useState([]);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
@@ -10,7 +10,7 @@ export function UserList() {
   const fetchUsers = async () => {
     setLoading(true);
     try {
-      const res = await fetch("https://reqres.in/api/users/");
+      const res = await fetch(url);
       const json = await res.json();
       console.log(json);
       setUsers(json.data);
@@ -19,7 +19,13 @@ export function UserList() {
     }
     setLoading(false);
   };
+  return { users, loading, error, fetchUsers };
+}
 
+export function UserList() {
+  const { fetchUsers, loading, error, users } = useFetchUsers(
+    "https://reqres.in/api/users/"
+  );
   return (
     <div className="user-list">
       <button onClick={fetchUsers} disabled={loading}>
