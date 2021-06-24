@@ -3,6 +3,7 @@ import React, {
   PureComponent,
   useCallback,
   useEffect,
+  useMemo,
   useState,
 } from "react";
 import ReactDOM from "react-dom";
@@ -10,31 +11,28 @@ import "./index.css";
 
 function FilterList({ data }) {
   const [searchKey, setSearchKey] = useState("");
-  const [filtered, setFiltered] = useState(data);
 
-  useEffect(() => {
-    setFiltered(data);
-  }, [data]);
+  const filtered = useMemo(() => {
+    return data.filter((item) => {
+      return item.email.includes(searchKey);
+    });
+  }, [data, searchKey]);
 
   const handleSearch = useCallback(
     (evt) => {
       setSearchKey(evt.target.value);
-      setFiltered(
-        data.filter((item) => {
-          return item.email.includes(evt.target.value);
-        })
-      );
     },
-    [setFiltered, setSearchKey, data]
+    [setSearchKey]
   );
   return (
     <div>
       <input value={searchKey} onChange={handleSearch}></input>
-      {filtered.map(({ email, first_name, last_name }) => (
-        <div key={email}>
-          {email} | {first_name} | {last_name}
-        </div>
-      ))}
+      {filtered &&
+        filtered.map(({ email, first_name, last_name }) => (
+          <div key={email}>
+            {email} | {first_name} | {last_name}
+          </div>
+        ))}
     </div>
   );
 }
