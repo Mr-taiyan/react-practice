@@ -2,38 +2,34 @@ import React, { Component, PureComponent, useCallback, useState } from "react";
 import ReactDOM from "react-dom";
 import "./index.css";
 
-const App = () => {
-  const [data, setData] = useState({ price: 0, currency: "rmb" });
-  const handlePrice = useCallback(
+const MyOwn = ({
+  value = {
+    price: 0,
+    currency: "rmb",
+  },
+  onChange = () => {},
+}) => {
+  const handleChange = useCallback(
     (price) => {
-      setData({
-        ...data,
-        price,
+      onChange({
+        ...value,
+        ...price,
       });
     },
-    [data]
-  );
-  const handleCurrency = useCallback(
-    (currency) => {
-      setData({
-        ...data,
-        currency,
-      });
-    },
-    [data]
+    [value, onChange]
   );
   return (
     <div>
       <input
-        value={data.price}
+        value={value.price}
         onChange={(evt) => {
-          handlePrice(evt.target.value);
+          handleChange({ price: evt.target.value });
         }}
       ></input>
       <select
-        value={data.currency}
+        value={value.currency}
         onChange={(evt) => {
-          handleCurrency(evt.target.value);
+          handleChange({ currency: evt.target.value });
         }}
       >
         <option value="rmb">RMB</option>
@@ -42,5 +38,15 @@ const App = () => {
     </div>
   );
 };
+
+function App() {
+  const [price, setPrice] = useState();
+  return (
+    <>
+      <MyOwn value={price} onChange={setPrice}></MyOwn>
+      <p>{JSON.stringify(price)}</p>
+    </>
+  );
+}
 
 ReactDOM.render(<App />, document.getElementById("root"));
