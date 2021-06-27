@@ -4,6 +4,7 @@ import "./index.css";
 import useArticle from "./useArticle";
 import useComment from "./useComment";
 import useUser from "./useUser";
+import CommentList from "./CommentList";
 
 const ArticleView = ({ id }) => {
   const { data: article, loading, error } = useArticle(id);
@@ -26,6 +27,7 @@ const ArticleView = ({ id }) => {
         </div>
       )}
       <p>{article.content}</p>
+      <CommentList data={comments || []} />
     </div>
   );
 };
