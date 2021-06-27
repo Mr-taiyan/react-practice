@@ -32,4 +32,4 @@ const ArticleView = ({ id }) => {
   );
 };
 
-ReactDOM.render(<ArticleView id={123} />, document.getElementById("root"));
+ReactDOM.render(<ArticleView id={1} />, document.getElementById("root"));

@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import apiClient from "./apiClient";
 
-export default function useUser({ id }) {
+export default function useUser(id) {
   const [data, setData] = useState(null);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
