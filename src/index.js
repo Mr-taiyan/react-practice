@@ -1,4 +1,4 @@
-import React, { Component, PureComponent } from "react";
+import React, { Component, PureComponent, useState } from "react";
 import ReactDOM from "react-dom";
 import "./index.css";
 import useArticle from "./useArticle";
@@ -32,4 +32,21 @@ const ArticleView = ({ id }) => {
   );
 };
 
-ReactDOM.render(<ArticleView id={1} />, document.getElementById("root"));
+const App = () => {
+  const [id, setId] = useState(1);
+
+  return (
+    <div className="exp-09-article-view-wrapper">
+      <ul>
+        <li onClick={() => setId(1)}>Article 1</li>
+        <li onClick={() => setId(2)}>Article 2</li>
+        <li onClick={() => setId(3)}>Article 3</li>
+        <li onClick={() => setId(4)}>Article 4</li>
+        <li onClick={() => setId(5)}>Article 5</li>
+      </ul>
+      <ArticleView id={id}></ArticleView>
+    </div>
+  );
+};
+
+ReactDOM.render(<App />, document.getElementById("root"));
