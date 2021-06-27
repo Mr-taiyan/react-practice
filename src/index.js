@@ -11,6 +11,8 @@ const ArticleView = ({ id }) => {
   const { data: comments } = useComment(id);
   const { data: user } = useUser(article?.userId);
 
+  console.log("articleView run");
+
   if (error) return "Failed.";
   if (!article || loading) return "loading...";
 

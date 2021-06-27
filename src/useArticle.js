@@ -6,14 +6,20 @@ const useArticle = (id) => {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
 
+  console.log("useArticle run");
+
   useEffect(() => {
     setLoading(true);
     setData(null);
     setError(null);
 
+    console.log("useArticle effect");
+
     apiClient
       .get(`/posts/${id}`)
       .then((res) => {
+        console.log("useArticle effect data");
+
         setLoading(false);
         setData(res.data);
       })
