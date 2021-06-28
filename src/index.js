@@ -1,9 +1,25 @@
 import React, { Component, PureComponent } from "react";
 import ReactDOM from "react-dom";
+import { Popover } from "antd";
 import "./index.css";
 
 function ListWithMore({ renderItem, data = [], max }) {
-  return <span className="" exp-10-list-with-more></span>;
+  const elements = data.map((item, index) => renderItem(item, index, data));
+  const show = elements.slice(0, max);
+  const hide = elements.slice(max);
+  return (
+    <span className="exp-10-list-with-more">
+      {show}
+      {hide.length > 0 && (
+        <Popover content={<div style={{ maxWidth: 500 }}>{hide}</div>}>
+          <span className="more-items-wrapper">
+            and{" "}
+            <span className="more-items-trigger"> {hide.length} more...</span>
+          </span>
+        </Popover>
+      )}
+    </span>
+  );
 }
 
 const data = [
@@ -72,7 +88,7 @@ const data = [
 function App() {
   return (
     <div className="exp-10-list-with-more">
-      <h1>user names</h1>
+      <h1>User Names</h1>
       <div className="user-names">
         Liked by:{" "}
         <ListWithMore
@@ -81,16 +97,16 @@ function App() {
           }}
           data={data}
           max={3}
-        ></ListWithMore>
+        />
       </div>
       <br />
       <br />
-      <h1>user list</h1>
+      <h1>User List</h1>
       <div className="user-list">
         <div className="user-list-row user-list-row-head">
-          <span className="user-name-cell">name</span>
-          <span>city</span>
-          <span>job title</span>
+          <span className="user-name-cell">Name</span>
+          <span>City</span>
+          <span>Job Title</span>
         </div>
         <ListWithMore
           renderItem={(user) => {
@@ -104,7 +120,7 @@ function App() {
           }}
           data={data}
           max={5}
-        ></ListWithMore>
+        />
       </div>
     </div>
   );
