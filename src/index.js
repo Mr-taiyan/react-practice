@@ -32,7 +32,7 @@ class Mouse extends PureComponent {
   render() {
     return (
       <div style={{ height: "100vh" }} onMouseMove={this.handleMouseMove}>
-        {this.props.children(this.state)}
+        {this.props.render(this.state)}
         <p>
           The current mouse position is ({this.state.x}, {this.state.y})
         </p>
@@ -46,7 +46,7 @@ class MouseTracker extends Component {
     return (
       <div>
         <h1>Move the mouse around!</h1>
-        <Mouse>{(mouse) => <Cat mouse={mouse} />}</Mouse>
+        <Mouse render={(mouse) => <Cat mouse={mouse} />}></Mouse>
       </div>
     );
   }
