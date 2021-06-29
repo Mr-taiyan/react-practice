@@ -63,6 +63,7 @@ const App = () => {
           value={values.name || null}
           onChange={(evt) => setFieldValue("name", evt.target.value)}
         />
+        {errors.name && <span style={{ color: "red" }}>{errors.name}</span>}
       </div>
       <div>
         <label>Email:</label>
@@ -70,6 +71,7 @@ const App = () => {
           value={values.email || null}
           onChange={(evt) => setFieldValue("email", evt.target.value)}
         />
+        {errors.email && <span style={{ color: "red" }}>{errors.email}</span>}
       </div>
       <button type="submit">Submit</button>
     </form>
