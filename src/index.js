@@ -11,6 +11,39 @@ const useForm = (initialState = {}) => {
       [name]: value,
     }));
   }, []);
+
+  return { values, setFieldValue };
 };
 
-ReactDOM.render(<div>test</div>, document.getElementById("root"));
+const App = () => {
+  const { values, setFieldValue } = useForm();
+  const handleSubmit = useCallback(
+    (event) => {
+      event.preventDefault();
+      console.log(values);
+    },
+    [values]
+  );
+
+  return (
+    <form onSubmit={handleSubmit}>
+      <div>
+        <label>Name: </label>
+        <input
+          value={values.name || null}
+          onChange={(evt) => setFieldValue("name", evt.target.value)}
+        />
+      </div>
+      <div>
+        <label>Email:</label>
+        <input
+          value={values.email || null}
+          onChange={(evt) => setFieldValue("email", evt.target.value)}
+        />
+      </div>
+      <button type="submit">Submit</button>
+    </form>
+  );
+};
+
+ReactDOM.render(<App />, document.getElementById("root"));
