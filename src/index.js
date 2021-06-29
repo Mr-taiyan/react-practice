@@ -2,8 +2,9 @@ import React, { Component, PureComponent } from "react";
 import ReactDOM from "react-dom";
 import "./index.css";
 
-const DataSourse = {
+const DataSource = {
   getComments() {},
+  getBlogPost() {},
   addChangeListener(prop) {},
   removeChangeListener(prop) {},
 };
@@ -17,19 +18,19 @@ class CommentList extends React.Component {
     super(props);
     this.handleChange = this.handleChange.bind(this);
     this.state = {
-      comments: DataSourse.getComments(),
+      comments: DataSource.getComments(),
     };
   }
 
   componentDidMount() {
-    DataSourse.addChangeListener(this.handleChange);
+    DataSource.addChangeListener(this.handleChange);
   }
   componentWillUnmount() {
-    DataSourse.removeChangeListener(this.handleChange);
+    DataSource.removeChangeListener(this.handleChange);
   }
   handleChange() {
     this.setState({
-      comments: DataSourse.getComments(),
+      comments: DataSource.getComments(),
     });
   }
   render() {
@@ -40,6 +41,38 @@ class CommentList extends React.Component {
         ))}
       </div>
     );
+  }
+}
+
+function TextBlock({ text }) {
+  return <div>{text}</div>;
+}
+
+class BlogPost extends React.Component {
+  constructor(props) {
+    super(props);
+    this.handleChange = this.handleChange.bind(this);
+    this.state = {
+      blogPost: DataSource.getBlogPost(props.id),
+    };
+  }
+
+  componentDidMount() {
+    DataSource.addChangeListener(this.handleChange);
+  }
+
+  componentWillUnmount() {
+    DataSource.removeChangeListener(this.handleChange);
+  }
+
+  handleChange() {
+    this.setState({
+      blogPost: DataSource.getBlogPost(this.props.id),
+    });
+  }
+
+  render() {
+    return <TextBlock text={this.state.blogPost} />;
   }
 }
 
