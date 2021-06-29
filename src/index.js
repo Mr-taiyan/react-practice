@@ -1,22 +1,52 @@
-import React, { Component, PureComponent, useCallback, useState } from "react";
+import React, {
+  Component,
+  PureComponent,
+  useCallback,
+  useMemo,
+  useState,
+} from "react";
 import ReactDOM from "react-dom";
 import "./index.css";
 
-const useForm = (initialState = {}) => {
+const useForm = (initialState = {}, validators) => {
   const [values, setValues] = useState(initialState);
+  const [errors, setErrors] = useState({});
 
-  const setFieldValue = useCallback((name, value) => {
-    setValues((values) => ({
-      ...values,
-      [name]: value,
-    }));
-  }, []);
+  const setFieldValue = useCallback(
+    (name, value) => {
+      setValues((values) => ({
+        ...values,
+        [name]: value,
+      }));
 
-  return { values, setFieldValue };
+      if (validators[name]) {
+        const errMsg = validators[name](value);
+        setErrors((errors) => ({
+          ...errors,
+          [name]: errMsg || null,
+        }));
+      }
+    },
+    [validators]
+  );
+
+  return { values, setFieldValue, errors };
 };
 
 const App = () => {
-  const { values, setFieldValue } = useForm();
+  const validators = useMemo(() => {
+    return {
+      name: (value) => {
+        if (value.length < 2) return "name length should be no less than 2";
+        return null;
+      },
+      email: (value) => {
+        if (!value.includes("@")) return "Invalid email address";
+        return null;
+      },
+    };
+  }, []);
+  const { values, setFieldValue, errors } = useForm({}, validators);
   const handleSubmit = useCallback(
     (event) => {
       event.preventDefault();
