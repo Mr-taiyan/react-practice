@@ -2,7 +2,20 @@ import React, { Component, PureComponent } from "react";
 import ReactDOM from "react-dom";
 import "./index.css";
 
-class MouseTracker extends React.Component {
+class Cat extends PureComponent {
+  render() {
+    const mouse = this.props.mouse;
+    return (
+      <img
+        src="/logo192.png"
+        style={{ position: "absolute", left: mouse.x, top: mouse.y }}
+        alt="cat"
+      ></img>
+    );
+  }
+}
+
+class Mouse extends PureComponent {
   constructor(props) {
     super(props);
     this.handleMouseMove = this.handleMouseMove.bind(this);
@@ -19,10 +32,21 @@ class MouseTracker extends React.Component {
   render() {
     return (
       <div style={{ height: "100vh" }} onMouseMove={this.handleMouseMove}>
-        <h1>Move the mouse around!</h1>
+        {this.props.children(this.state)}
         <p>
           The current mouse position is ({this.state.x}, {this.state.y})
         </p>
+      </div>
+    );
+  }
+}
+
+class MouseTracker extends Component {
+  render() {
+    return (
+      <div>
+        <h1>Move the mouse around!</h1>
+        <Mouse>{(mouse) => <Cat mouse={mouse} />}</Mouse>
       </div>
     );
   }
