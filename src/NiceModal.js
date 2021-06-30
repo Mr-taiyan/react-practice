@@ -77,3 +77,18 @@ export const useNiceModal = (modalId) => {
 
   return { args, hiding, visible: !!args, show, hide };
 };
+
+export default function NiceModal({ id, children, ...rest }) {
+  const modal = useNiceModal(id);
+  return (
+    <Modal
+      onCancel={() => modal.hide()}
+      onOk={() => modal.hide()}
+      afterClose={() => modal.hide(true)}
+      visible={!modal.hiding}
+      {...rest}
+    >
+      {children}
+    </Modal>
+  );
+}
