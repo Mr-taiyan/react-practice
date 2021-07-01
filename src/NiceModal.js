@@ -1,4 +1,4 @@
-import { useCallback } from "react";
+import { useCallback, useMemo } from "react";
 import { act } from "react-dom/cjs/react-dom-test-utils.production.min";
 import { useDispatch, useSelector } from "react-redux";
 import { Modal } from "antd";
@@ -76,7 +76,10 @@ export const useNiceModal = (modalId) => {
   const args = useSelector((s) => s[modalId]);
   const hiding = useSelector((s) => s.hiding[modalId]);
 
-  return { args, hiding, visible: !!args, show, hide };
+  return useMemo(
+    () => ({ args, hiding, visible: !!args, show, hide }),
+    [args, hide, show, hiding]
+  );
 };
 
 export default function NiceModal({ id, children, ...rest }) {
