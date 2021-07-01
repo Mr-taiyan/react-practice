@@ -4,32 +4,23 @@ import { Modal } from "antd";
 
 export const modalReducer = (state = { hiding: {} }, action) => {
   switch (action.type) {
-    case "nice-modal/show": {
-      const { modalId, args } = action.payload;
+    case "nice-modal/show":
       return {
         ...state,
-        [modalId]: args || true,
+        [action.payload.modalId]: action.payload.args || true,
         hiding: {
           ...state.hiding,
-          [modalId]: false,
+          [action.payload.modalId]: false,
         },
       };
-    }
-    case "nice-modal/hide": {
-      const { modalId, force } = action.payload;
-      return force
+    case "nice-modal/hide":
+      return action.payload.force
         ? {
             ...state,
-            [modalId]: false,
-            hiding: {
-              [modalId]: false,
-            },
+            [action.payload.modalId]: false,
+            hiding: { [action.payload.modalId]: false },
           }
-        : {
-            ...state,
-            hiding: { [modalId]: true },
-          };
-    }
+        : { ...state, hiding: { [action.payload.modalId]: true } };
     default:
       return state;
   }
@@ -59,7 +50,6 @@ const modalCallbacks = {};
 
 export const useNiceModal = (modalId) => {
   const dispatch = useDispatch();
-
   const show = useCallback(
     (args) => {
       return new Promise((resolve) => {
@@ -67,29 +57,32 @@ export const useNiceModal = (modalId) => {
         dispatch(showModal(modalId, args));
       });
     },
-    [modalId, dispatch]
+    [dispatch, modalId]
+  );
+  const resolve = useCallback(
+    (args) => {
+      if (modalCallbacks[modalId]) {
+        modalCallbacks[modalId](args);
+        delete modalCallbacks[modalId];
+      }
+    },
+    [modalId]
   );
 
   const hide = useCallback(
     (force) => {
       dispatch(hideModal(modalId, force));
+      delete modalCallbacks[modalId];
     },
     [dispatch, modalId]
   );
-
-  const resolve = useCallback((args) => {
-    if (modalCallbacks[modalId]) {
-      modalCallbacks[modalId](args);
-      delete modalCallbacks[modalId];
-    }
-  });
 
   const args = useSelector((s) => s[modalId]);
   const hiding = useSelector((s) => s.hiding[modalId]);
 
   return useMemo(
     () => ({ args, hiding, visible: !!args, show, hide, resolve }),
-    [args, hide, show, hiding, resolve]
+    [args, hide, show, resolve, hiding]
   );
 };
 
@@ -111,7 +104,7 @@ export default function NiceModal({ id, children, ...rest }) {
 export function createNiceModal(modalId, Comp) {
   return (props) => {
     const { visible, args } = useNiceModal(modalId);
-    if (!visible) return;
+    if (!visible) return null;
     return <Comp {...args} {...props} />;
   };
 }
