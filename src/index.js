@@ -1,6 +1,7 @@
 import React, { Component, PureComponent, useState } from "react";
 import ReactDOM from "react-dom";
 import "./index.css";
+import NiceModalExample from "./NiceModalExample";
 
 function Sider() {}
 
@@ -24,4 +25,12 @@ function MainLayout() {
   );
 }
 
-ReactDOM.render(<div>test</div>, document.getElementById("root"));
+function App() {
+  return (
+    <div>
+      <NiceModalExample />
+    </div>
+  );
+}
+
+ReactDOM.render(<App />, document.getElementById("root"));

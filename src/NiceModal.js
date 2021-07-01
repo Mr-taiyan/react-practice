@@ -1,5 +1,4 @@
 import { useCallback, useMemo } from "react";
-import { act } from "react-dom/cjs/react-dom-test-utils.production.min";
 import { useDispatch, useSelector } from "react-redux";
 import { Modal } from "antd";
 

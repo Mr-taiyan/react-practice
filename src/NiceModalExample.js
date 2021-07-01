@@ -1,6 +1,13 @@
-import { func } from "prop-types";
-import NiceModal, { createNiceModal, useNiceModal } from "./NiceModal";
+import NiceModal, {
+  createNiceModal,
+  modalReducer,
+  useNiceModal,
+} from "./NiceModal";
 import { Button } from "antd";
+import { createStore } from "@reduxjs/toolkit";
+import { Provider } from "react-redux";
+
+const store = createStore(modalReducer);
 
 const MyModal = createNiceModal("my-modal", () => {
   return (
@@ -19,5 +26,14 @@ function MyModalExample() {
       </Button>
       <MyModal />
     </>
+  );
+}
+
+export default function App() {
+  return (
+    <Provider store={store}>
+      <h1>Nice Modal</h1>
+      <MyModalExample />
+    </Provider>
   );
 }
