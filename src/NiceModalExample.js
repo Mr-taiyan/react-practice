@@ -6,8 +6,11 @@ import NiceModal, {
 import { Button } from "antd";
 import { createStore } from "@reduxjs/toolkit";
 import { Provider } from "react-redux";
+import { composeWithDevTools } from "redux-devtools-extension";
 
-const store = createStore(modalReducer);
+const enhancer = composeWithDevTools();
+
+const store = createStore(modalReducer, enhancer);
 
 const MyModal = createNiceModal("my-modal", () => {
   return (
