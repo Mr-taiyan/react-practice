@@ -1,6 +1,7 @@
 import { useCallback } from "react";
 import { act } from "react-dom/cjs/react-dom-test-utils.production.min";
 import { useDispatch, useSelector } from "react-redux";
+import { Modal } from "antd";
 
 export const modalReducer = (state = { hiding: {} }, action) => {
   switch (action.type) {
@@ -91,4 +92,12 @@ export default function NiceModal({ id, children, ...rest }) {
       {children}
     </Modal>
   );
+}
+
+export function createNiceModal(modalId, Comp) {
+  return (props) => {
+    const { visible, args } = useNiceModal(modalId);
+    if (!visible) return;
+    return <Comp {...args} {...props} />;
+  };
 }
