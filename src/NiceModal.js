@@ -56,12 +56,17 @@ function hideModal(modalId, force) {
   };
 }
 
+const modalCallbacks = {};
+
 export const useNiceModal = (modalId) => {
   const dispatch = useDispatch();
 
   const show = useCallback(
     (args) => {
-      dispatch(showModal(modalId, args));
+      return new Promise((resolve) => {
+        modalCallbacks[modalId] = resolve;
+        dispatch(showModal(modalId, args));
+      });
     },
     [modalId, dispatch]
   );
@@ -73,12 +78,19 @@ export const useNiceModal = (modalId) => {
     [dispatch, modalId]
   );
 
+  const resolve = useCallback((args) => {
+    if (modalCallbacks[modalId]) {
+      modalCallbacks[modalId](args);
+      delete modalCallbacks[modalId];
+    }
+  });
+
   const args = useSelector((s) => s[modalId]);
   const hiding = useSelector((s) => s.hiding[modalId]);
 
   return useMemo(
-    () => ({ args, hiding, visible: !!args, show, hide }),
-    [args, hide, show, hiding]
+    () => ({ args, hiding, visible: !!args, show, hide, resolve }),
+    [args, hide, show, hiding, resolve]
   );
 };
 
