@@ -1,5 +1,6 @@
 import React, { Component, PureComponent } from "react";
 import ReactDOM from "react-dom";
 import "./index.css";
+import SamplePages from "./MyRouter";
 
-ReactDOM.render(<div>test</div>, document.getElementById("root"));
+ReactDOM.render(<SamplePages />, document.getElementById("root"));
