@@ -1,21 +1,13 @@
 import { useCallback } from "react";
 import { Tabs, Table } from "antd";
-import {
-  useHistory,
-  useParams,
-  BrowserRouter as Router,
-  Switch,
-  Route,
-} from "react-router-dom";
+import { useHistory, useParams, Switch, Route } from "react-router-dom";
 import data from "./data";
 import { useSearchParam } from "react-use";
 
 const { TabPane } = Tabs;
 
 const App = () => {
-  console.log("enter");
   const { activeTab = "users" } = useParams();
-  console.log("log1");
   const page = parseInt(useSearchParam("page"), 10) || 1;
   const history = useHistory();
   const handleTabChange = useCallback(
