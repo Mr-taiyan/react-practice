@@ -5,12 +5,16 @@ import SamplePages from "./MyRouter";
 // import App from "./NestedRouting";
 import TabsPage from "./TabsPage";
 import "antd/dist/antd.css";
-import { BrowserRouter as Router } from "react-router-dom";
+import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
 
 const App = () => {
   return (
     <Router>
-      <TabsPage></TabsPage>
+      <Switch>
+        <Route path="/:activeTab">
+          <TabsPage></TabsPage>
+        </Route>
+      </Switch>
     </Router>
   );
 };
