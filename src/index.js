@@ -1,6 +1,7 @@
 import React, { Component, PureComponent, useState } from "react";
 import ReactDOM from "react-dom";
 import "./index.css";
+import "antd/dist/antd.css";
 import NiceModalExample from "./NiceModalExample";
 
 function Sider() {}
