@@ -1,4 +1,38 @@
 import _ from "lodash";
+import { useMemo } from "react";
+import { useSearchParam } from "react-use";
+
+function SearchBox({ data }) {
+  const searchKey = useSearchParam("key") || "";
+  const filtered = useMemo(() => {
+    return data.filter((item) =>
+      item.title.toLowerCase().includes(searchKey.toLowerCase())
+    );
+  }, [data, searchKey]);
+
+  const handleSearch = _.debounce((evt) => {
+    window.history.pushState(
+      {},
+      "",
+      `${window.location.pathname}?key=${evt.target.value}`
+    );
+  }, 300);
+  return (
+    <div className="08-filter-list">
+      <h2>Movies (Debounce Search)</h2>
+      <input
+        defaultValue={searchKey}
+        placeholser="Search..."
+        onChange={handleSearch}
+      ></input>
+      <ul style={{ marginTop: 20 }}>
+        {filtered.map((item) => (
+          <li key={item.id}>{item.title}</li>
+        ))}
+      </ul>
+    </div>
+  );
+}
 
 const App = () => {
   const data = [
@@ -84,6 +118,8 @@ const App = () => {
       title: "Deathsport",
     },
   ];
+
+  return <SearchBox data={data} />;
 };
 
 export default App;
