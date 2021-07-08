@@ -3,7 +3,8 @@ import ReactDOM from "react-dom";
 import "./index.css";
 import { byName } from "./keyBy";
 import Debounce from "./Debounce";
+import Demo from "./MUI";
 
 console.log(byName);
 
-ReactDOM.render(<Debounce />, document.getElementById("root"));
+ReactDOM.render(<Demo />, document.getElementById("root"));
