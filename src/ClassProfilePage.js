@@ -10,6 +10,6 @@ export class ClassProfilePage extends React.Component {
   };
 
   render() {
-    return <button onClick={this.handleClick}>Follow</button>;
+    return <button onClick={this.handleClick}>Follow Class</button>;
   }
 }

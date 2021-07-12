@@ -7,5 +7,5 @@ export function FunctionProfilePage(props) {
     setTimeout(showMessage, 3000);
   };
 
-  return <button onClick={handleClick}>Follow</button>;
+  return <button onClick={handleClick}>Follow Function</button>;
 }
